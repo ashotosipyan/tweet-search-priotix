@@ -29,6 +29,8 @@ class SearchBar extends Component {
 	getFavoriteTweetObject = id => {
 		let favObject = this.state.tweets.find(tweet => tweet.id === id);
 		this.props.onFavItemAdd(favObject);
+		document.getElementById("searchInput").value = "";
+		document.getElementById("resultsContainer").style.display = "none";
 	};
 
 	render() {
@@ -43,6 +45,7 @@ class SearchBar extends Component {
 							Search box
 						</span>
 						<input
+							id="searchInput"
 							type="text"
 							className="form-control"
 							aria-label="Sizing example input"
@@ -53,7 +56,10 @@ class SearchBar extends Component {
 				</div>
 
 				{this.state.tweets.length > 0 ? (
-					<div className="search-results-wrapper">
+					<div
+						id="resultsContainer"
+						className="search-results-wrapper"
+					>
 						<ul className="list-group">
 							<ListWithLoading
 								isLoading={this.state.loading}

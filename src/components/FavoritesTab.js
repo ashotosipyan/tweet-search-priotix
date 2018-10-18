@@ -1,11 +1,13 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import FavoritesTabList from "./FavoritesTabList";
+import ConfirmationModal from "./ConfirmationModal";
 
 class FavoritesTab extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			userFavTweets: []
+			userFavTweets: [],
+			tmpRemoveItemId: ""
 		};
 	}
 
@@ -35,6 +37,12 @@ class FavoritesTab extends Component {
 		}
 	}
 
+	handleDeleteItemId = id => {
+		this.setState({
+			tmpRemoveItemId: id
+		});
+	};
+
 	handleItemDelete = id => {
 		let newStateArray = [...this.state.userFavTweets];
 		let removedItemIndex = this.state.userFavTweets.findIndex(
@@ -60,12 +68,19 @@ class FavoritesTab extends Component {
 
 	render() {
 		return (
-			<ul className="list-group">
-				<FavoritesTabList
-					userFavTweets={this.state.userFavTweets}
+			<Fragment>
+				<h3>Favorites Box</h3>
+				<ul className="list-group">
+					<FavoritesTabList
+						userFavTweets={this.state.userFavTweets}
+						getRemoveItemId={this.handleDeleteItemId}
+					/>
+				</ul>
+				<ConfirmationModal
+					getItemId={this.state.tmpRemoveItemId}
 					deleteItem={this.handleItemDelete}
 				/>
-			</ul>
+			</Fragment>
 		);
 	}
 }

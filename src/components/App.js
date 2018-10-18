@@ -27,7 +27,7 @@ class App extends Component {
 						results in your own fav-box
 					</p>
 				</div>
-				<div className="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+				<div className="col-sm-12 col-md-12 col-lg-6 col-xl-6 search-results">
 					<SearchBar onFavItemAdd={this.handleFavItemObject} />
 				</div>
 				<div className="col-sm-12 col-md-12 col-lg-6 col-xl-6">

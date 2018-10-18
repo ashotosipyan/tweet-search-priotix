@@ -8,7 +8,11 @@ const FavoritesTabList = props => {
 				<div className="col-10">{favTweet.title}</div>
 				<div className="col-2">
 					<p className="delete-icon">
-						<button onClick={() => props.deleteItem(favTweet.id)}>
+						<button
+							onClick={() => props.getRemoveItemId(favTweet.id)}
+							data-toggle="modal"
+							data-target="#confirmationModal"
+						>
 							<i className="fas fa-times" />
 						</button>
 					</p>

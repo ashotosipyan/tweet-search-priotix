@@ -22,6 +22,10 @@ code {
 	margin-top: 10px;
 }
 
+.search-results {
+	margin-bottom: 20px;
+}
+
 .search-results-wrapper {
 	height: 300px;
 	overflow-y: scroll;

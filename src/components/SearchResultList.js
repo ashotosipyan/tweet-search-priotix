@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const SearchResultList = props => {
 	let { tweetsList } = props;
@@ -29,6 +30,10 @@ const SearchResultList = props => {
 			</div>
 		</li>
 	));
+};
+
+SearchResultList.propTypes = {
+	tweetsList: PropTypes.array.isRequired
 };
 
 export default SearchResultList;
