@@ -1,7 +1,21 @@
 import React, { Component } from "react";
 import SearchBar from "./SearchBar";
+import FavoritesTab from "./FavoritesTab";
 
 class App extends Component {
+	constructor() {
+		super();
+		this.state = {
+			tmpData: null
+		};
+	}
+
+	handleFavItemObject = favorite => {
+		this.setState({
+			tmpData: favorite
+		});
+	};
+
 	render() {
 		return (
 			<div className="row justify-content-center">
@@ -13,7 +27,12 @@ class App extends Component {
 						results in your own fav-box
 					</p>
 				</div>
-				<SearchBar />
+				<div className="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+					<SearchBar onFavItemAdd={this.handleFavItemObject} />
+				</div>
+				<div className="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+					<FavoritesTab favoriteItem={this.state.tmpData} />
+				</div>
 			</div>
 		);
 	}

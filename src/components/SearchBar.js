@@ -1,26 +1,39 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import getTweets from "../utils/getTweets";
+import SearchResultList from "./SearchResultList";
+import HOCloader from "./HOCloader";
+
+const ListWithLoading = HOCloader(SearchResultList);
 
 class SearchBar extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			loading: false,
 			tweets: []
 		};
 	}
 
 	getResultsOnChange = e => {
 		e.preventDefault();
+		this.setState({ loading: true });
+
 		getTweets(e.target.value).then(result =>
 			this.setState({
-				tweets: result
+				tweets: result,
+				loading: false
 			})
 		);
 	};
 
+	getFavoriteTweetObject = id => {
+		let favObject = this.state.tweets.find(tweet => tweet.id === id);
+		this.props.onFavItemAdd(favObject);
+	};
+
 	render() {
 		return (
-			<div className="col-6">
+			<Fragment>
 				<div className="input-group mb-3">
 					<div className="input-group-prepend">
 						<span
@@ -38,40 +51,21 @@ class SearchBar extends Component {
 						/>
 					</div>
 				</div>
-				<div className="search-results-wrapper">
-					<ul className="list-group">
-						{this.state.tweets.length > 0
-							? this.state.tweets.map(tweet => (
-									<li
-										key={tweet.id}
-										className="list-group-item"
-									>
-										<div className="row">
-											<div className="col-2">
-												<img
-													src={tweet.image}
-													className="img-responsive rounded result-images"
-													alt="results_image"
-												/>
-											</div>
-											<div className="col-10">
-												<span className="align-middle">
-													{tweet.title}
-												</span>
-											</div>
-										</div>
 
-										<div className="col-12">
-											<p className="result-description">
-												{tweet.description}
-											</p>
-										</div>
-									</li>
-							  ))
-							: "No results"}
-					</ul>
-				</div>
-			</div>
+				{this.state.tweets.length > 0 ? (
+					<div className="search-results-wrapper">
+						<ul className="list-group">
+							<ListWithLoading
+								isLoading={this.state.loading}
+								tweetsList={this.state.tweets}
+								getFavTweetObject={this.getFavoriteTweetObject}
+							/>
+						</ul>
+					</div>
+				) : (
+					""
+				)}
+			</Fragment>
 		);
 	}
 }

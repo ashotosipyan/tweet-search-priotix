@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const getTweets = async term => {
-	let url = `https://api-search.priotix.xyz/search?q=${term}&index=tournament`;
+	// let url = `https://api-search.priotix.xyz/search?q=${term}&index=tournament`;
+	let url = `https://api-search.staging.win.gg/search?q=${term}&index=tournament`;
 	try {
 		return await axios
 			.get(url)
