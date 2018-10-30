@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const FavoritesTabList = props => {
+	if (!props.userFavTweets) return "No records yet!";
 	return props.userFavTweets.map((favTweet, index) => (
 		<li key={index} className="list-group-item">
 			<div className="row">
