@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import FavoritesTabList from "./FavoritesTabList";
 import ConfirmationModal from "./ConfirmationModal";
+import storage from "../utils/LocalStorage.class";
 
 class FavoritesTab extends Component {
 	constructor(props) {
@@ -13,23 +14,29 @@ class FavoritesTab extends Component {
 
 	componentDidMount() {
 		this.setState({
-			userFavTweets: JSON.parse(localStorage.getItem("favoriteTweets"))
+			userFavTweets: storage.tweetsArray
 		});
 	}
 
 	componentDidUpdate(prevProps) {
 		if (this.props.favoriteItem !== prevProps.favoriteItem) {
-			let favTweets = JSON.parse(localStorage.getItem("favoriteTweets"));
+			// Localstorage
+
+			let favTweets = storage.tweetsArray;
 
 			if (favTweets == null) favTweets = [];
 
 			favTweets.push(this.props.favoriteItem);
 
-			localStorage.setItem("favoriteTweets", JSON.stringify(favTweets));
+			storage.tweetsArray = favTweets;
 
-			let newStateItem = this.state.userFavTweets.concat(
-				this.props.favoriteItem
-			);
+			// State
+
+			let favTweetList = this.state.userFavTweets;
+
+			if (favTweetList == null) favTweetList = [];
+
+			let newStateItem = favTweetList.concat(this.props.favoriteItem);
 
 			this.setState({
 				userFavTweets: newStateItem
@@ -55,7 +62,7 @@ class FavoritesTab extends Component {
 			userFavTweets: newStateArray
 		});
 
-		let favTweets = JSON.parse(localStorage.getItem("favoriteTweets"));
+		let favTweets = storage.tweetsArray;
 
 		let removedItemIndexLocalStorage = favTweets.findIndex(
 			favTweet => favTweet.id === id
@@ -63,7 +70,7 @@ class FavoritesTab extends Component {
 
 		favTweets.splice(removedItemIndexLocalStorage, 1);
 
-		localStorage.setItem("favoriteTweets", JSON.stringify(favTweets));
+		storage.tweetsArray = favTweets;
 	};
 
 	render() {

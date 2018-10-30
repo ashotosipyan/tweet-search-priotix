@@ -24,7 +24,7 @@ const FavoritesTabList = props => {
 };
 
 FavoritesTabList.propTypes = {
-	userFavTweets: PropTypes.array.isRequired
+	userFavTweets: PropTypes.array
 };
 
 export default FavoritesTabList;

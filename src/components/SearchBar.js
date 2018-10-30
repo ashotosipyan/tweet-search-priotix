@@ -10,13 +10,14 @@ class SearchBar extends Component {
 		super(props);
 		this.state = {
 			loading: false,
+			hideSearchResultsBar: true,
 			tweets: []
 		};
 	}
 
 	getResultsOnChange = e => {
 		e.preventDefault();
-		this.setState({ loading: true });
+		this.setState({ loading: true, hideSearchResultsBar: false });
 
 		getTweets(e.target.value).then(result =>
 			this.setState({
@@ -29,8 +30,10 @@ class SearchBar extends Component {
 	getFavoriteTweetObject = id => {
 		let favObject = this.state.tweets.find(tweet => tweet.id === id);
 		this.props.onFavItemAdd(favObject);
-		document.getElementById("searchInput").value = "";
-		document.getElementById("resultsContainer").style.display = "none";
+		this.searchInput.value = "";
+		this.setState({
+			hideSearchResultsBar: true
+		});
 	};
 
 	render() {
@@ -51,26 +54,29 @@ class SearchBar extends Component {
 							aria-label="Sizing example input"
 							aria-describedby="inputGroup-sizing-default"
 							onChange={this.getResultsOnChange}
+							ref={el => (this.searchInput = el)}
 						/>
 					</div>
 				</div>
 
-				{this.state.tweets.length > 0 ? (
-					<div
-						id="resultsContainer"
-						className="search-results-wrapper"
-					>
-						<ul className="list-group">
-							<ListWithLoading
-								isLoading={this.state.loading}
-								tweetsList={this.state.tweets}
-								getFavTweetObject={this.getFavoriteTweetObject}
-							/>
-						</ul>
-					</div>
-				) : (
-					""
-				)}
+				{this.state.tweets.length > 0
+					? !this.state.hideSearchResultsBar && (
+							<div
+								id="resultsContainer"
+								className="search-results-wrapper"
+							>
+								<ul className="list-group">
+									<ListWithLoading
+										isLoading={this.state.loading}
+										tweetsList={this.state.tweets}
+										getFavTweetObject={
+											this.getFavoriteTweetObject
+										}
+									/>
+								</ul>
+							</div>
+					  )
+					: ""}
 			</Fragment>
 		);
 	}
